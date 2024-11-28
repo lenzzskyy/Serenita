@@ -846,3 +846,18 @@ html, body {
 body {
     overflow-y: auto;
 }
+
+.remove-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.remove-btn:hover {
+    background-color: #c0392b;
+}
