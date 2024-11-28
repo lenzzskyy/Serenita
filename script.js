@@ -7,7 +7,6 @@ function navigateTo(pageId) {
     document.getElementById(pageId).classList.add('active');
 }
 
-// Keranjang dan Pemesanan
 let cart = [];
 let total = 0;
 
@@ -30,9 +29,13 @@ function updateCartUI() {
 
     const cartItems = document.getElementById("cartItems");
     cartItems.innerHTML = "";
-    cart.forEach((cartItem) => {
+
+    cart.forEach((cartItem, index) => {
         const li = document.createElement("li");
-        li.textContent = `${cartItem.item} - Rp${formatRupiah(cartItem.price)}`;
+        li.innerHTML = `
+            ${cartItem.item} - Rp${formatRupiah(cartItem.price)}
+            <button class="remove-btn" onclick="removeFromCart(${index})">Hapus</button>
+        `;
         cartItems.appendChild(li);
     });
 
@@ -40,7 +43,13 @@ function updateCartUI() {
     cartTotal.textContent = formatRupiah(total.toFixed(0));
 }
 
-
+// Hapus item dari cart
+function removeFromCart(index) {
+    const removedItem = cart[index];
+    total -= removedItem.price; // Kurangi total
+    cart.splice(index, 1); // Hapus item dari array
+    updateCartUI(); // Perbarui UI
+}
 
 // Tampilkan modal cart
 function showCart() {
@@ -81,45 +90,16 @@ checkoutBtn.addEventListener("click", () => {
     const checkoutModal = document.getElementById("checkoutModal");
     checkoutModal.style.display = "none";
 });
-// Fungsi untuk menutup modal checkout
+
+// Tutup modal checkout
 function closeCart() {
     const checkoutModal = document.getElementById("checkoutModal");
-    checkoutModal.style.display = "none";  // Menyembunyikan modal checkout
+    checkoutModal.style.display = "none";
 }
 
 
 
 
-// Toggle Popup Chat
-function toggleChat() {
-    const chatPopup = document.getElementById('chatPopup');
-    chatPopup.style.display = chatPopup.style.display === 'block' ? 'none' : 'block';
-}
-
-// Fungsi Kirim Pesan
-function sendMessage() {
-    const chatInput = document.getElementById('chatInput');
-    const chatBody = document.querySelector('.chat-body');
-
-    if (chatInput.value.trim()) {
-        const message = document.createElement('p');
-        message.textContent = "You: " + chatInput.value;
-        message.classList.add('user-message');
-        chatBody.appendChild(message);
-
-        // Kosongkan input setelah pesan dikirim
-        chatInput.value = '';
-        chatBody.scrollTop = chatBody.scrollHeight; // Scroll ke bawah
-    }
-}
-
-// Fungsi Enter untuk Kirim Pesan
-function handleEnter(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        sendMessage();
-    }
-}
 function toggleMenu() {
     var navLinks = document.getElementById("navLinks");
     navLinks.classList.toggle("show");
